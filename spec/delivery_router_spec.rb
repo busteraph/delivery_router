@@ -27,7 +27,7 @@ describe DeliveryRouter do
       end
 
       context "given customer 2 does not order anything" do
-        before(:all) do
+        before do
           @delivery_router.clear_orders(:customer => 2)
         end
 
@@ -61,6 +61,7 @@ describe DeliveryRouter do
         end
 
         it "sends rider 2 to customer 1 through restaurant 3" do
+          # byebug
           route = @delivery_router.route(:rider => 2)
           expect(route.length).to eql(2)
           expect(route[0].id).to eql(3)
