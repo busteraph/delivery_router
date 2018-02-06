@@ -39,14 +39,12 @@ class DeliveryRouter
     route_distance.sort_by { |o, distance| distance }
     order, dist = route_distance.first
 
-  byebug  
-    [order.restaurant, order.customer]
+     [order.restaurant, order.customer]
   end
 
   def delivery_time(p)# p[:customer]
     o = customer_order_to_deliver(p)
-    # o.rider.speed / 
-    restaurants.map { |r| r if r.id == o.restaurant }.compact.first.cooking_time# + euclidean_distance
+    restaurants.map { |r| r if r.id == o.restaurant }.compact.first.cooking_time# + euclidean_distance / o.rider.speed 
   end
 
   def euclidean_distance(p1, p2)
