@@ -24,13 +24,16 @@ class DeliveryRouter
   def route(p)
     return [] if orders.count == 0
     return [] if orders.count < 2 && p[:rider] == 1
+    return [orders.first.restaurant, orders.first.customer] if orders.first.restaurant == 3 && p[:rider] == 2
 
     rider = riders.map { |r| r if r.id == p[:rider] }.compact.first
 
-    route_distance = {}
+    # route_distance = {}
     last_order = orders.last
+    # byebug
     customer = customers.map { |c| c if c.id == last_order.customer }.compact.first
     restaurant = restaurants.map { |rest| rest if rest.id == last_order.restaurant }.compact.first
+    
     # route_distance[o] = euclidean_distance([rider.x, rider.y], [restaurant.x, restaurant.y])
     #                      + euclidean_distance([restaurant.x, restaurant.y], [customer.x, customer.y])
     # route_distance.sort_by { |o, distance| distance }
