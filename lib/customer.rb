@@ -8,7 +8,6 @@ class Customer
   end
 
   def self.find(id)
-byebug
     self.id == id
   end
 end

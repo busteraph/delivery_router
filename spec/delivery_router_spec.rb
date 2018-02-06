@@ -95,7 +95,7 @@ describe DeliveryRouter do
       end
     end
 
-    context "no customer orders from restaurant" do
+    context "no restaurant orders from any customer" do
       before(:all) do
         @delivery_router.clear_orders()
       end
@@ -110,13 +110,19 @@ describe DeliveryRouter do
         expect(route).to be_empty
       end
     end
+
+    describe '#customer_order_to_deliver(p)' do
+      it 'returns order to be delivered to customer parameter' do
+        @delivery_router.add_order(:customer => 1, :restaurant => 3)
+        @delivery_router.add_order(:customer => 2, :restaurant => 4)
+        expect(@delivery_router.customer_order_to_deliver(customer: 1)).to be_instance_of(Order)
+      end
+    end
   end
 
   describe '#euclidean_distance' do
     it 'test distance between 2 points with 2 dimensions' do
       expect(DeliveryRouter.new(1,2,3).euclidean_distance([2,1], [3,4])).to be_within(0.001).of(3.162)
     end
-
   end
-
 end
