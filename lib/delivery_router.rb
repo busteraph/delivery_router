@@ -28,23 +28,20 @@ class DeliveryRouter
     rider = riders.map { |r| r if r.id == p[:rider] }.compact.first
 
     route_distance = {}
+    last_order = orders.last
+    customer = customers.map { |c| c if c.id == last_order.customer }.compact.first
+    restaurant = restaurants.map { |rest| rest if rest.id == last_order.restaurant }.compact.first
+    # route_distance[o] = euclidean_distance([rider.x, rider.y], [restaurant.x, restaurant.y])
+    #                      + euclidean_distance([restaurant.x, restaurant.y], [customer.x, customer.y])
+    # route_distance.sort_by { |o, distance| distance }
+    # order, dist = route_distance.first
 
-    orders.each do |o|
-      customer = customers.map { |c| c if c.id == o.customer }.compact.first
-      restaurant = restaurants.map { |r| r if r.id == o.restaurant }.compact.first
-      route_distance[o] = euclidean_distance([rider.x, rider.y], [restaurant.x, restaurant.y])
-                                      + euclidean_distance([rider.x, rider.y], [customer.x, customer.y])
-    end
- 
-    route_distance.sort_by { |o, distance| distance }
-    order, dist = route_distance.first
-
-     [order.restaurant, order.customer]
+    [last_order.restaurant, last_order.customer]
   end
 
   def delivery_time(p)# p[:customer]
     o = customer_order_to_deliver(p)
-    restaurants.map { |r| r if r.id == o.restaurant }.compact.first.cooking_time# + euclidean_distance / o.rider.speed 
+    restaurants.map { |r| r if r.id == o.restaurant }.compact.first.cooking_time  # + euclidean_distance / o.rider.speed 
   end
 
   def euclidean_distance(p1, p2)
